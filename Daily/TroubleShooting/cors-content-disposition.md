@@ -1,12 +1,14 @@
 # Client에서 Content-Disposition을 받지 못했다?
 
+#### 2021.01.12
+
 > Browser가 접근하지 못한 Header정보는 CORS 문제로, Server에서 CORS Setting을 해주거나, @CrossOrigin Annotation을 통해 Header 정보에 접근하게 해주자
 
 프로젝트에서 Excel File을 생성해서 Client 측에 내려주거나, 대량의 Excel File들을 zip으로 묶어서 내려주는 API를 개발해야 했다. 단일 Excel File의 경우에는 ByteArrayOutputStream을, zip은 ZipOutputStream으로 ResponseEntity에 Resource를 실어 내려보냈다.
 
 File을 Export 하기 위한 기본적인 Setting은 아래와 같이 지정했다.
 
-```
+```java
 HttpHeaders headers = new HttpHeaders();
 headers.setContentDisposition(ContentDisposition.builder("attachment")
         .filename(filename, StandardCharsets.UTF_8)
@@ -33,7 +35,7 @@ Content-Disposition은 Browser가 기본적으로 접근가능한 헤더가 아�
 
 서버의 CORS Option은 인증/권한 으로 인해 이미 'exposedHeaders'를 Setting 해준 상황이라, 파일을 다운로드 해야 하는 특정 API들에만 Annotation으로 exposedHeaders를 부가적으로 setting해주기로 결정했고 아래와 같이 처리했다.
 
-```
+```java
 @GetMapping("/API명칭")
 @CrossOrigin(value="*", exposedHeaders={"Content-Disposition"})
 public ResponseEntity<Resource> exportFile(...) {
