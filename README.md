@@ -1,18 +1,20 @@
-# TIL
+# TIL :muscle:
 
-`Today what I Learned` :muscle:
+`Today what I Learned`
 
 Will grow step by step to be a better Web Developer
 
+---
+
 ### **1. Computer Science**
 
-|      Categories       | Contents |
-| :-------------------: | -------- |
-| <sub>Algorithms</sub> |          |
-|   S/W Architecture    |          |
-|          OS           |          |
-|         Linux         |          |
-|   Basic Mathematics   |          |
+|    Categories     | Contents |
+| :---------------: | -------- |
+|    Algorithms     |          |
+| S/W Architecture  |          |
+|        OS         |          |
+|       Linux       |          |
+| Basic Mathematics |          |
 
 <br>
 
@@ -42,12 +44,14 @@ Will grow step by step to be a better Web Developer
 
 ### **4. Daily**
 
-|    Categories    | Contents |
-| :--------------: | -------- |
-| Trouble Shooting |          |
-|      Books       |          |
-|  Communication   |          |
+|    Categories    | Contents                                              |
+| :--------------: | ----------------------------------------------------- |
+| Trouble Shooting | Solved Troubles or Issues during working and studying |
+|      Books       |                                                       |
+|  Communication   |                                                       |
 
 <br>
 
 ---
+
+since 2020
