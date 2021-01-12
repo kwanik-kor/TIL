@@ -16,8 +16,6 @@ Will grow step by step to be a better Web Developer
 |       Linux       |          |
 | Basic Mathematics |          |
 
-<br>
-
 ### **2. Language**
 
 | Categories | Contents |
@@ -27,8 +25,6 @@ Will grow step by step to be a better Web Developer
 |   Python   |          |
 | JavaScript |          |
 | TypeScript |          |
-
-<br>
 
 ### **3. Framework & Library**
 
@@ -40,15 +36,13 @@ Will grow step by step to be a better Web Developer
 |   React    |          |
 |   Redux    |          |
 
-<br>
+### **[4. Daily](./Daily)**
 
-### **4. Daily**
-
-|    Categories    | Contents                                              |
-| :--------------: | ----------------------------------------------------- |
-| Trouble Shooting | Solved Troubles or Issues during working and studying |
-|      Books       |                                                       |
-|  Communication   |                                                       |
+|                 Categories                  | Contents                                              |
+| :-----------------------------------------: | ----------------------------------------------------- |
+| [Trouble Shooting](./Daily/TroubleShooting) | Solved Troubles or Issues during working and studying |
+|           [Books](./Daily/Books)            |                                                       |
+|   [Communication](./Daily/Communication)    |                                                       |
 
 <br>
 

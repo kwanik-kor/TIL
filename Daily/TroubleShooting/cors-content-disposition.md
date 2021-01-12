@@ -17,7 +17,7 @@ headers.add("Content-Type", "application/download; charset=UTF-8");
 headers.add("Content-Transfer-Encoding", "binary");
 ```
 
-Swagger에서 Test를 진행할 때, Network를 살펴보면
+Swagger에서 Test를 진행할 때나 Client에서 요청 결과로 Network를 살펴보면
 
 ```
 Content-Disposition: attachment; filename*=UTF-8''%EB%82%98%EB%8A%94%20%EC%84%A4%EC%A0%95%EA%B0%92%EC%9D%B4%EB%8B%A4._20210112.xlsx
