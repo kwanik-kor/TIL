@@ -1,18 +1,18 @@
 # TIL
 
-`Today what I Learned :muscle:`
+`Today what I Learned` :muscle:
 
 Will grow step by step to be a better Web Developer
 
 ### **1. Computer Science**
 
-|    Categories     | Contents |
-| :---------------: | -------- |
-|    Algorithms     |          |
-| S/W Architecture  |          |
-|        OS         |          |
-|       Linux       |          |
-| Basic Mathematics |          |
+|      Categories       | Contents |
+| :-------------------: | -------- |
+| <sub>Algorithms</sub> |          |
+|   S/W Architecture    |          |
+|          OS           |          |
+|         Linux         |          |
+|   Basic Mathematics   |          |
 
 <br>
 
