@@ -1,8 +1,8 @@
 # TIL :muscle:
 
-`Today what I Learned`
+Make steady efforts to become a better 'Web Developer' :punch:
 
-Will grow step by step to be a better Web Developer
+`Today what I Learned`
 
 ---
 
