@@ -38,11 +38,11 @@ Make steady efforts to become a better 'Web Developer' :punch:
 
 ### **[4. Daily](./Daily)**
 
-|                 Categories                  | Contents                                              |
-| :-----------------------------------------: | ----------------------------------------------------- |
-| [Trouble Shooting](./Daily/TroubleShooting) | Solved Troubles or Issues during working and studying |
-|           [Books](./Daily/Books)            |                                                       |
-|   [Communication](./Daily/Communication)    |                                                       |
+|                 Categories                  | Contents                                                     |
+| :-----------------------------------------: | ------------------------------------------------------------ |
+| [Trouble Shooting](./Daily/TroubleShooting) | Solved Troubles or Issues during working and studying        |
+|           [Books](./Daily/Books)            |                                                              |
+|   [Communication](./Daily/Communication)    | Writing about the importance of communication as a developer |
 
 <br>
 
