@@ -16,7 +16,7 @@ Make steady efforts to become a better 'Web Developer' :punch:
 |       Linux       |          |
 | Basic Mathematics |          |
 
-### **2. Language**
+### **[2. Language](./Language)**
 
 | Categories | Contents |
 | :--------: | -------- |
@@ -26,7 +26,7 @@ Make steady efforts to become a better 'Web Developer' :punch:
 | JavaScript |          |
 | TypeScript |          |
 
-### **3. Framework & Library**
+### **[3. Framework & Library](./Framework & Library)**
 
 | Categories | Contents |
 | :--------: | -------- |
