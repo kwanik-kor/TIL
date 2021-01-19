@@ -18,6 +18,8 @@
 
 > 회사에서, 사이드 프로젝트에서 협업을 하며 느끼는 Communication의 중요성
 
+[1. 4명의 프리랜서](./Communication/4freelancers.md)
+
 ---
 
 ### Books
