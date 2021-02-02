@@ -12,6 +12,8 @@
 
 [1. Client에서 Content-Disposition을 받지 못했다?](./TroubleShooting/cors-content-disposition.md)
 
+[2. .dll을 load 할 수 없습니다.](./TroubleShooting/cannot-load-dll.md)
+
 ---
 
 ### Communication

@@ -9,7 +9,7 @@
 File을 Export 하기 위한 기본적인 Setting은 아래와 같이 지정했다.
 
 ```java
-HttpHeaders headers = new HttpHeaders();
+HttpHeaders headers = new HttpH8eaders();
 headers.setContentDisposition(ContentDisposition.builder("attachment")
         .filename(filename, StandardCharsets.UTF_8)
         .build());
@@ -20,7 +20,7 @@ headers.add("Content-Transfer-Encoding", "binary");
 Swagger에서 Test를 진행할 때나 Client에서 요청 결과로 Network를 살펴보면
 
 ```
-Content-Disposition: attachment; filename*=UTF-8''%EB%82%98%EB%8A%94%20%EC%84%A4%EC%A0%95%EA%B0%92%EC%9D%B4%EB%8B%A4._20210112.xlsx
+Content-Disposition: attachment; filename*=UTF-8''%EB%82%9%EB%8A%94%20%EC%84%A4%EC%A0%95%EA%B0%92%EC%9D%B4%EB%8B%A4._20210112.xlsx
 ```
 
 와 같이 Content-Disposition과 attachment 뒤에 encoding된 파일 명이 붙어 있는 것을 확인할 수 있었다.
