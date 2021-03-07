@@ -27,3 +27,11 @@
 ### Books
 
 > 가끔씩 읽을 인문학 서적들의 독후감
+
+---
+
+### Article
+
+> Article 원문 Study
+
+[1. 3월 첫째 주 - Shopify](./Article/Shopify_20210301.md)
