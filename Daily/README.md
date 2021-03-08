@@ -35,3 +35,5 @@
 > Article 원문 Study
 
 [1. 3월 첫째 주 - Shopify](./Article/Shopify_20210301.md)
+
+[2. 3월 둘째 주 - Going Viral](./Article/Viral_20210308.md)
