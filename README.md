@@ -43,6 +43,7 @@ Make steady efforts to become a better 'Web Developer' :punch:
 | [Trouble Shooting](./Daily/TroubleShooting) | Solved Troubles or Issues during working and studying        |
 |           [Books](./Daily/Books)            |                                                              |
 |   [Communication](./Daily/Communication)    | Writing about the importance of communication as a developer |
+|         [Article](./Daily/Article)          | Reading Articles in English about startup                    |
 
 <br>
 
