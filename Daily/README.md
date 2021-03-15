@@ -14,7 +14,7 @@
 
 [2. .dll을 load 할 수 없습니다.](./TroubleShooting/cannot-load-dll.md)
 
----
+[3. 우클릭 메뉴 포지셔닝과 Multi Select에 따른 Border주기.](./TroubleShooting/context_menu_positioning.md)
 
 ### Communication
 
