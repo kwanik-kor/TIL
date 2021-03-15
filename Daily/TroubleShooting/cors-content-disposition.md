@@ -9,7 +9,7 @@
 File을 Export 하기 위한 기본적인 Setting은 아래와 같이 지정했다.
 
 ```java
-HttpHeaders headers = new HttpH8eaders();
+HttpHeaders headers = new HttpHeaders();
 headers.setContentDisposition(ContentDisposition.builder("attachment")
         .filename(filename, StandardCharsets.UTF_8)
         .build());
