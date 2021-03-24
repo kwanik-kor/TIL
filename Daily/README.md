@@ -24,6 +24,8 @@
 
 [1. 4명의 프리랜서](./Communication/4freelancers.md)
 
+[2. 믿음의 네 가지 요소](./Communication/belief.md)
+
 ---
 
 ### Books
