@@ -8,6 +8,8 @@
 
 `4. 영어가 녹슬어간다! 매주 Article 읽으면서 놓지 않기`
 
+---
+
 ### Trouble Shooting
 
 > 업무보면서, 공부하면서 만난 문제 해결기
@@ -17,6 +19,8 @@
 [2. .dll을 load 할 수 없습니다.](./TroubleShooting/cannot-load-dll.md)
 
 [3. 우클릭 메뉴 포지셔닝과 Multi Select에 따른 Border주기.](./TroubleShooting/context_menu_positioning.md)
+
+---
 
 ### Communication
 
