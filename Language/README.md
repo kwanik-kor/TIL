@@ -12,6 +12,10 @@
 
 ### Java
 
+> Main Language인 Java, 제대로 알고 계속 업그레이드 하기.
+
+[1. Enum](./Java/Enum.md)
+
 ### JavaScript
 
 ### SQL
