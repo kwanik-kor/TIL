@@ -8,6 +8,8 @@
 
 `4. 영어가 녹슬어간다! 매주 Article 읽으면서 놓지 않기`
 
+`5. 투자하면서 세상 돌아가는거 좀 보자`
+
 ---
 
 ### Trouble Shooting
@@ -49,3 +51,11 @@
 [3. 3월 셋째 주 - The Roblox Microvers](./Article/Roblox_20210315.md)
 
 [4. 3월 넷째 주 - 10 Breakthrough Technologies 2021](./Article/BreakthroughTech_20210322.md)
+
+---
+
+### Stock
+
+> 세상 돌아가는건 알아야지
+
+[1. 주식 기초](./Stock/stock_basic_1.md)

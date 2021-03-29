@@ -44,6 +44,7 @@ Make steady efforts to become a better 'Web Developer' :punch:
 |           [Books](./Daily/Books)            | A book report on humanities                                  |
 |   [Communication](./Daily/Communication)    | Writing about the importance of communication as a developer |
 |         [Article](./Daily/Article)          | Reading Articles in English about startup                    |
+|           [Stock](./Daily/Stock)            |                                                              |
 
 ---
 
