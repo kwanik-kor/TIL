@@ -41,6 +41,8 @@ Java의 Enum은 상수 하나당 자신의 Instance를 하나씩 만들어서 pu
 
 > ㄱ. valueOf() <br> ㄴ. values() <br> ㄷ. compareTo() <br> ㄹ. name() <br> ㅁ. ordinal()
 
+### 3. valueOf()
+
 ---
 
 ### Reference
