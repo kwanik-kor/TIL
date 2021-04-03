@@ -43,6 +43,10 @@ Java의 Enum은 상수 하나당 자신의 Instance를 하나씩 만들어서 pu
 
 ### 3. valueOf()
 
+### 4. values()
+
+### 5. compareTo()
+
 ---
 
 ### Reference
