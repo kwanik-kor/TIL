@@ -14,6 +14,8 @@
 
 > BOJ 카테고리 별로 파훼하면서, 알고리즘을 완전히 체득하기
 
+[1. BFS](./Algorithms/BFS)
+
 ### Basic Mathmatics
 
 > 기초 수학. 다시 머리 속으로 집어넣기
