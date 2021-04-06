@@ -52,7 +52,7 @@
 
 [4. 3월 넷째 주 - 10 Breakthrough Technologies 2021](./Article/BreakthroughTech_20210322.md)
 
----
+## [5. 4월 둘째 주 - Idea Generation](./Article/IdeaGeneration_20210405.md)
 
 ### Stock
 
