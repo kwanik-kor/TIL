@@ -72,3 +72,5 @@
   - hibernate로 시작 : Hibernate 전용 속성
 - **JPA는 특정 데이터베이스에 종속적이지 않다!!!**
   - 각각의 데이터베이스가 제공하는 SQL 문법과 함수는 조금씩 다른데(MYSQL : LIMIT / Oracle : ROWNUM), 이러한 것들은 데이터베이스 방언이라 하고, 이를 알아서 JPA가 처리해줌.
+
+5. JPA Maven 프로젝트로 시작하기
