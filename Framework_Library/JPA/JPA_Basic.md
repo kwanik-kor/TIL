@@ -73,4 +73,80 @@
 - **JPA는 특정 데이터베이스에 종속적이지 않다!!!**
   - 각각의 데이터베이스가 제공하는 SQL 문법과 함수는 조금씩 다른데(MYSQL : LIMIT / Oracle : ROWNUM), 이러한 것들은 데이터베이스 방언이라 하고, 이를 알아서 JPA가 처리해줌.
 
-5. JPA Maven 프로젝트로 시작하기
+5. JPA 구동 방식
+
+- JPA Persistence class가 설정정보를 읽어서 EntityManagerFactory 생성
+- 필요할 때마다 EneityManager 생성 & 호출
+- JPA 사용할 모델(Model)에는 반드시 '@Entity' Annotation을 달아주어야 함.
+  - 그리고 Id Annotation을 통해서 PK임을 명시해줘야함.
+- Entity Manager는 쓰레드 간에 공유하면 안됨!!!!!
+  - 사용하고 버려야 함
+- JPA의 모든 데이터 변경은 Transaction 안에서 실행
+
+```java
+// App Loading 시점에서 Factory는 한 번만 생성하면 됨.
+EntityManagerFactory emf = Persistence.createEntityManagerFactory(persistenceUnitName);
+// EntityManager는 Trasaction 단위로 생성
+EntityManager em = emf.createEntityManager();
+```
+
+6. JPQL
+
+- 객체지향 SQL
+- 가장 단순한 조회 방법으로 검색 조건이 붙는다면??
+  - 검색을 할 때도 테이블이 아닌 Entity 객체를 대상으로 검색하는 것
+  - 모든 DB 데이터를 객체로 변환해서 검색하는 것은 불가능함
+  - 필요한 데이터만 DB에서 불러오려면 결국 검색조건이 포함된 SQL이 필요
+- SQL을 추상화한 JPQL이란 객체지향 쿼리 언어
+  - SQL : 데이터베이스 테이블을 대상으로 쿼리
+  - JPQL : Entity를 대상으로 쿼리
+
+7. 영속성 관리
+
+- 영속성 컨텍스트(Persistence Context)
+  - 실제로 JPA가 내부적으로 어떻게 동작하는거야??
+  - **'Entity를 영구 저장하는 환경'**이라는 뜻
+    > Entity를 영속성 컨텍스트라는데 저장한다는 것
+  - EntityManager.persist(entity);
+  - 논리적인 개념으로, 눈에 보이지 않으며 Entity Manager를 통해 접근한다.
+- Entity의 생명주기
+  - 비영속(new / transient) : 영속성 Context와 전혀 관계가 없는 새로운 상태
+  - 영속(managed) : 영속성 컨텍스트에 관리되는 상태
+    - 영속 상태가 된다고 해서 **Query가 날라가는게 아님**
+  - 준영속(detached) : 영속성 컨텍스트에 저장되었다가 분리된 상태
+  - 삭제(removed) : 삭제된 상태
+
+```java
+// 비영속
+Member member = new Member();
+member.setId(100L);
+member.setName("hi");
+
+// 영속
+em.persist(member);
+```
+
+- 영속성 컨텍스트의 이점
+
+  - 1차 캐시
+  - 동일성(identity) 보장
+    - 1차 캐시로 반복가능한 읽기(Repeatable read) 등급의 트랜잭션 격리 수준을 DB가 아닌 Application 차원에서 제공
+  - 트랜잭션을 지원하는 쓰기 지연
+    - 쓰기 지연 SQL 저장소에 저장해둔 SQL이 commit 시점에서 전송됨
+  - 변경 감지(Dirty Checking)
+  - 지연 로딩
+
+- Flush
+
+  - 영속성 컨텍스트의 변경내용을 데이터베이스에 반영
+  - Flush 발생 시, 변경을 감지하고 수정된 Entity를 '쓰기 지연 SQL 저장소'에 등록
+  - 쓰기지연 SQL 저장소의 Query를 DB에 전송
+  - 직접 호출할 수도 있고, commit이나 JPQL Query를 실행 할 때 Flush를 호출 함
+  - Flush를 한다 해서 1차 캐시를 지우는 것은 아님
+
+- 준영속 상태
+  - 영속 상태의 Entity가 영속성 컨텍스트에서 분리(detached)된 상태
+  - 영속성 컨텍스트가 제공하는 기능을 사용할 수 없음
+  - em.detach(entity) : 특정 Entity만 준영속 상태로 전환
+  - em.clear() : 영속성 Context를 통으로 초기화
+  - em.close() : 영속성 Context 종료
