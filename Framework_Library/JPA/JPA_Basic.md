@@ -150,3 +150,49 @@ em.persist(member);
   - em.detach(entity) : 특정 Entity만 준영속 상태로 전환
   - em.clear() : 영속성 Context를 통으로 초기화
   - em.close() : 영속성 Context 종료
+
+8. Entity Mapping
+
+- 영속성 컨텍스트와 마찬가지로 가장 중요한 부분
+  - 객체와 테이블 매핑 : @Entity, @Table
+  - 필드와 컬럼 매핑 : @Column
+  - 기본 키 매핑 : @Id
+  - 연관관계 매핑 : @ManyToOne, @JoinColumn
+- **@Entity**
+  - JPA가 관리하는 Entity
+  - JPA를 사용해서 테이블과 매핑할 클래스는 필수적으로 달아줘야 함
+  - **기본 생성자는 필수!!**
+- **@Table**
+  - name, catalog, schema, uniqueConstraints
+- **데이터베이스 스키마 자동 생성**
+  - DDL을 Application 실행 시점에 자동 생성
+  - 이는 개발장비에서만 사용할 것!!!!!
+  - DB 방언을 사용해서 DB에 맞는 적절한 DDL 생성
+    - create / create-drop / update / validate / none
+    - update는 추가된 테이블 / 컬럼에만 적용됨
+    - validate는 엔티티와 테이블이 정상 매핑된지 확인하는 것
+  - **운영 장비에는 절대 create, create-drop, update 사용하면 안됨!!**
+    - 개발 초기 : create, update
+    - 테스트 서버 : update, validate
+    - 스테이징, 운영 : validate, none
+    - 테스트 서버라도 사용하지 않는 것 권장
+  - DDL 생성 기능은 DDL을 자동 생성할 때만 사용됨
+- **필드와 컬럼 매핑**
+  - @Column, @Temporal, @Enumerated, @Lob, @Transient
+- 기본키 매핑
+  - @Id
+    - 직접 할당
+  - @GeneratedValue
+    - 자동 할당
+    - IDENTITY : DB에 위임 - MYSQL
+      - **영속성 관리는 PK가 있어야 하는데, IDENTITY 전략은 Insert 해봐야 값을 알 수 있음**
+      - 그래서 IDENTITY 전략은 **persist 시점에 Query를 날림**
+    - SEQUENCE : DB 시퀀스 오브젝트 사용
+      - @SequenceGenerator 필요
+      - **IDENTITY 전략과 마찬가지로 PK가 있어야 하기 때문에, persist 시점에 Sequence에서 값을 가져와놓음**
+    - TABLE : 키 생성용 테이블 사용
+      - @TableGenerator 필요
+      - 키 생성 전용 테이블을 하나 만들어서 DB Sequence를 흉내내는 전략으로, 모든 DB에 적용가능하지만, 성능이 단점
+      - 권장 : Long 형 + 대체키 + 키 생성 전략
+    - 아니, 아무튼 Network 탈 바에 한 번 INSERT 하는게 낫지 않음?
+      - **allocationSize** : 메모리에 미리 정해놓은 개수만큼 땡겨놓고, 다 쓰면 다시 떙겨오기
