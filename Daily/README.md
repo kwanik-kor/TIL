@@ -28,9 +28,9 @@
 
 > 회사에서, 사이드 프로젝트에서 협업을 하며 느끼는 Communication의 중요성
 
-[1. 4명의 프리랜서](./Communication/4freelancers.md)
+[1. 믿음의 네 가지 요소](./Communication/belief.md) <br>
 
-[2. 믿음의 네 가지 요소](./Communication/belief.md)
+[comment]: <> ([2. 리더의 자질]&#40;./Communication/leader.md&#41;)
 
 ---
 
