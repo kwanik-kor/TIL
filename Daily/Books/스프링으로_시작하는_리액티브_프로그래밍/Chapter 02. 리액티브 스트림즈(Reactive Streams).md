@@ -1,3 +1,4 @@
+# Chapter 02. 리액티브 스트림즈(Reactive Streams)
 > 리액티브 스트림즈가 무엇이고, 핵심 컴포넌트인 Publisher와 Subscriber에 대해 이해할 수 있다.
 
 ## 2.1 리액티브 스트림즈란(Reactive Streams)?
@@ -54,7 +55,7 @@ public static interface Publisher<T> {
 ```
 - 개념상으로는 Subscriber가 Publisher를 구독하는 것이 맞으나, Java에서는 Publisher가 subscribe 메서드의 매개변수인 Subscriber를 등록하는 형태로 구독이 이루어짐
 
-### 2.3.2 Subscriber\
+### 2.3.2 Subscriber
 ```java
 // Java 9 Flow API
 
@@ -169,3 +170,4 @@ public static interface Subscription {
 - Demand
 	- Subscriber가 Publisher에게 요청하는 뎅ㅣ터
 	- Publisher가 아직 Subscriber에게 전달하지 않은 Subscriber가 요청한 데이터
+- 
