@@ -160,3 +160,12 @@ public static interface Subscription {
 - cancel
 	- Publisher에게 데이터 요청 취소
 
+---
+## 2.4 리액티브 스트림즈 관련 용어 정의
+
+- Signal
+	- Publisher와 Subscriber 간에 주고받는 상호작용
+	- `onSubscribe` `onNext`, `onComplete`, `onError`, `request` , `cancel`
+- Demand
+	- Subscriber가 Publisher에게 요청하는 뎅ㅣ터
+	- Publisher가 아직 Subscriber에게 전달하지 않은 Subscriber가 요청한 데이터
