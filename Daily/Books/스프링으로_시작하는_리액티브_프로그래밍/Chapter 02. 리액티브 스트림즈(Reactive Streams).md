@@ -180,3 +180,5 @@ public static interface Subscription {
 	- 연산자
 - Source
 	- '최초의'의미로 사용됨
+
+### 2.5 리액티브 스트림즈의 구현 규칙
