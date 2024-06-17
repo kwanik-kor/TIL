@@ -170,4 +170,13 @@ public static interface Subscription {
 - Demand
 	- Subscriber가 Publisher에게 요청하는 뎅ㅣ터
 	- Publisher가 아직 Subscriber에게 전달하지 않은 Subscriber가 요청한 데이터
-- 
+- Emit
+	- Publisher가 Subscriber에게 데이터를 통지하는 것(내보내는 것)
+- Upstream/Downstream
+- Sequence
+	- Publisher가 emit하는 데이터의 연속적인 흐름을 정의해 놓은 것
+	- Operator 체인 형태로 정의
+- Operator
+	- 연산자
+- Source
+	- '최초의'의미로 사용됨
