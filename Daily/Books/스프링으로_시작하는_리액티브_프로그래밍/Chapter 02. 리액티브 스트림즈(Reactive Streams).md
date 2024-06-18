@@ -182,3 +182,10 @@ public static interface Subscription {
 	- '최초의'의미로 사용됨
 
 ### 2.5 리액티브 스트림즈의 구현 규칙
+1. Publisher가 Subscriber에게 보내는 onNext signal의 총 개수는 항상 해당 Subscriber의 구독을 통해 요청된 데이터의 총 개수보다 더 작거나 같아야 한다.
+2. Publisher는 요청된 것보다 적은 수의 onNext signal을 보내고 onComplete 또는 onError를 호출하여 구독을 종료할 수 있다.
+3. Publisher의 데이터 처리가 실패하면 onError signal을 보내야 한다.
+4. Publisher의 데이터 처리가 성공적으로 종료되면 onComplete signal을 보내야 한다.
+5. Publisher가 Subscriber에게 onError 또는 onComplete signal을 보내는 경우 해당 Subscriber의 구독은 취소된 것으로 간주되어야 한다.
+6. 일단 종료 상태 signal을 받으면 (onError, onComplete) 더 이상 signal이 발생되지 않아야 한다.
+7. 구독이 취소되면 Subscriber는 결국 signal을 받는 것을 중지해야 한다.
