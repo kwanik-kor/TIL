@@ -28,7 +28,7 @@
 
 > 회사에서, 사이드 프로젝트에서 협업을 하며 느끼는 Communication의 중요성
 
-[1. 믿음의 네 가지 요소](./Communication/belief.md) <br>
+[1. 믿음의 네 가지 요소](belief.md) <br>
 
 [comment]: <> ([2. 리더의 자질]&#40;./Communication/leader.md&#41;)
 
