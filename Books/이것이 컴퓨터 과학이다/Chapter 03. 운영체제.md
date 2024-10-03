@@ -294,17 +294,65 @@ public class Race {
 
 ## 3.1 동기화 기법
 
-### 3.1.1 뮤텍스 락(mutex lock)
+### 3.1.1 뮤텍스 락(mutex lock, MUTual EXclusion)
+> 동시에 접근해서는 안 되는 자원에 동시 접근이 불가능하도록 상호 배제를 보장하는 동기화 도구
 
+- 상호 배제를 위한 락(lock)
+- 임계 구역에 접근하고자 한다면 반드시 락을 획득(acquire)해야 하고, 임계 구역에서의 작업이 끝났다면 락을 해제(release)해야 한다.
+- 프로세스 및 스레드가 공유하는 변수(lock)와 2개의 함수(acquire, release)로 구현
+
+- 프로세스 P1 acquire() 호출, 임계 구역 진입
+- 프로세스 P2 acquire() 호출, lock을 획득하지 못해 임계 구역 접근 불가
+- 프로세스 P1 임계 구역 작업 종료, release() 호출
+- 프로세스 P2 임계 구역 진입
+
+```Java
+static Lock lock = new ReentrantLock();
+
+// ...
+lock.lock();
+try {
+	sharedData++;
+} finally {
+	lock.unlock();
+}
+```
 
 ### 3.1.2 세마포(semaphore)
+> 뮤텍스 락보다 조금 더 일반화된 방식의 동기화 도구로, 공유 자원이 여러 개 있는 상황에서도 동기화 가능
 
+- 변수 S: 사용 가능한 공유 자원의 개수를 나타내는 변수
+	- 임계구역에 진입할 수 있는 프로세스의 개수
+- wait() 함수: 임계 구역 진입 전 호출하는 함수
+- signal() 함수: 임계 구역 진입 후 호출하는 함수
+
+공유자원 2개, 프로세스 3개인 경우
+- 프로세스 P1 wait() 호출, S를 1 감소시키면 S = 1이므로 임계 구역 진입
+- 프로세스 P2 wait() 호출, S를 1 감소시키면 S = 0이므로 임계 구역 진입
+- 프로세스 P3 wait() 호출, S를 1 감소시키면 S = -1이므로 대기 상태로 전환
+- 프로세스 P1 임계 구역 작업 종료, signal() 호출 S를 1 증가시키면 S=0이므로 대기 상태였던 P3을 준비 상태로 전환
+- 깨어난 프로세스 P3 임계 구역 진입
+- 프로세스 P2 임계 구역 작업 종료, signal() 호출, S를 1 증가시키면 S = 1
+- 프로세스 P3 임계 구역 작업 종료, signal() 호출, S를 1 증가시키면 S = 2
+
+```Java
+static Semaphore semaphore = new Semaphore();
+
+// ...
+try {
+	semaphore.acquire();
+	sharedData++;
+} finally {
+	lock.release();
+}
+```
 
 ### 3.1.3 조건변수와 모니터
 
 
 ### 3.1.4 스레드 안전
 
+## 3.2 교착 상태(Deadlock)
 
 ---
 # 4. CPU 스케줄링
