@@ -237,6 +237,74 @@
 ---
 # 3. 동기화와 교착 상태
 
+**공유자원(shared resource)**
+- 프로세스 혹은 스레드가 공유하는 자원
+- 메모리, 파일, 전역 변수, 입출력장치 등
+
+**임계구역(critical section)**
+- 공유 자원에 접근하는 코드 중 동시에 실행했을 때 문제가 발생할 수 있는 코드
+- 동시에 실행되는 프로세스나 스레드가 동시에 임계 구역에 진입하여 실행되면 문제가 될 수 있음
+	- **레이스 컨디션(race condition)**
+	- 둘 중 하나는 작업이 끝날 때까지 대기해야 함
+
+```Java
+public class Race {
+	static int sharedData = 0;
+
+	public static void main(String[] args) {
+		Thread thread1 = new Thread(new Increment());
+		Thread thread2 = new Thread(new Decrement());
+		
+		thread1.start();
+		thread2.start();
+		
+		try {
+			thread1.join();
+			thread2.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("Final value of sharedData: " + sharedData);
+	}
+
+	static class Increment implements Runnable {
+		public void run() {
+			for (int i = 0; i < 10000; i++) {
+				sharedData++;
+			}
+		}
+	}
+	
+	static class Decrement implements Runnable {
+		public void run() {
+			for (int i = 0; i < 10000; i++) {
+				sharedData--;
+			}
+		}
+	}
+}
+```
+
+> 레이스 컨디션을 방지하면서 임계 구역을 관리하기 위해서는 프로세스와 스레드가 동기화 되어야 함
+
+**동기화(synchronization)**
+- 실행 순서 제어: 프로세스 및 스레드를 올바른 순서로 실행하기
+- 상호 배제: 동시에 접근해서는 안되는 자원에 하나의 프로세스 및 스레드만 접근하기
+
+## 3.1 동기화 기법
+
+### 3.1.1 뮤텍스 락(mutex lock)
+
+
+### 3.1.2 세마포(semaphore)
+
+
+### 3.1.3 조건변수와 모니터
+
+
+### 3.1.4 스레드 안전
+
 
 ---
 # 4. CPU 스케줄링
