@@ -36,4 +36,3 @@
 1. https://brewagebear.github.io/fundamental-jvm-classloader/
 2. https://gusdnd852.tistory.com/206
 3. https://codevang.tistory.com/83#google_vignette
-4. 
