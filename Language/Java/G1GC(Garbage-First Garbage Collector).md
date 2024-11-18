@@ -33,7 +33,7 @@
 
 ### 2.2.1 Region 관리
 - 최대 2048개의 Region으로 나누어서 관리
-- 기본 아이디어는어떤 Region에는 다른 Region 보다 쓰레기가 많으므로, STW가 수반되더라도 정확히 어떤 작업을 수행해야 할 지 알고 있으므로 효율적이다.
+- 기본 아이디어는 어떤 Region에는 다른 Region 보다 쓰레기가 많으므로, STW가 수반되더라도 정확히 어떤 작업을 수행해야 할 지 알고 있으므로 효율적이다.
 - 기존 GC들은 Old Generation을 정리할 때, Full GC가 발생했지만 G1GC에서는 Young과 Old를 함께 처리할 수 있음
 
 ### 2.2.2 Concurrent Marking Phase
@@ -77,6 +77,7 @@
 		1. 새로운 GC 대상 Regoin을 설정하는 작업을 수행하기 위해
 6. Evacuation
 	1. GC 대상 Region이었으나 Cleanup 단계에서 완전히 비워지지 않은 Region의 살아남은 객체들을 새로운(Available/Unused) Region에 복사, Compaction 수행
+	2. STW 미발생
 
 
 > SATB(Snapshot-At-The-Beginning)
