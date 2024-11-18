@@ -55,6 +55,7 @@
 2. Root Region Scan
 	1. Initial Mark에서 탐색된 Survivor Region의 객체들이 참조하는 Old Region 객체를 추적, 마킹
 		1. Old Region 중에서 살아있는 객체 식별
+		2. Survivor 객체가 offset 역할을 해줌
 	2. 병렬로 실행됨에 따라 STW 발생하지 않음
 3. ConcurrentMarking
 	1. 힙의 모든 Old Region을 병렬로 스캔하여 살아 있는 객체를 마킹
@@ -65,6 +66,7 @@
 		1. 일반적으로 힙 메모리의 45% 이상 사용된 경우
 4. Remark
 	1. 애플리케이션 동작 중 객체 참조 관계가 변경된 부분을 확인하고, 추가적으로 살아 있는 객체를 마킹
+		1. Initial Mark 시점에 떠 있지 않던 스레드
 	2. STW
 		1. Concurrent Marking 단계에서 객체 참조 그래프가 변경되었을 가능성이 있으므로
 		2. DB 마이그레이션과 비슷한 단계?
@@ -74,22 +76,22 @@
 	2. Garbage 비율이 높은 Region을 GC 대상으로 표시하고, Humongous Region에 있는 객체도 분석
 	3. 마킹 작업의 메타데이터 정리
 	4. STW
-		1. 새로운 GC 대상 Regoin을 설정하는 작업을 수행하기 위해
+		1. 새로운 GC 대상 Region을 설정하는 작업을 수행하기 위해
 6. Evacuation
 	1. GC 대상 Region이었으나 Cleanup 단계에서 완전히 비워지지 않은 Region의 살아남은 객체들을 새로운(Available/Unused) Region에 복사, Compaction 수행
-	2. STW 미발생
+	2. STW 발생
 
 
 > SATB(Snapshot-At-The-Beginning)
 
++ TAMS
+	+ LinkedList
++ Floating... 
+	+ 
 
 ### 2.2.3 Collection Set 선택
 
 ### 2.2.4  Compaction
-
-
-
-
 
 ---
 # 3. References
@@ -110,3 +112,5 @@
 	1. 도달능력(Reachability)을 기준으로 판단하는데, Reachable 상태임은 역으로 어떻게 아는 것일까?
 
 1. 기존의 GC는 Young Generation을 훨씬 적게 잡는데, G1GC에서는 Young Generation인 Eden과 Survivor이 많아질 수 있다. 이슈가 없을까?
+	1. Old Generation이 더 컸던 적이 없음
+2. 
