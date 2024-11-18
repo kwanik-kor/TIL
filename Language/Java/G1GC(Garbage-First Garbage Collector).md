@@ -40,11 +40,18 @@
 힙 영역의 Old Region에서 살아 있는 객체를 식별하여 Garbage 비율을 계산하고, 수집 대상 Region을 선택하기 위해 수행된다. 대부분 병렬로 실행되나, 특정 단계에서는 STW가 발생함
 1. Initial Mark
 	1. GC 루트에서 참조되는 객체 그래프의 시작점, 스택, 정적 변수 등에서 참조되는 객체를 마킹
+		1. GC 루트는 여러가지일 수 있음
+			1. JVM 스레스 스택
+			2. 전역 변수
+			3. JVM 내부 참조(각 클래스의 메타 데이터, JNI)
+			4. 활성 모니터
 	2. STW
 		1. 현재 상태를 고정하기 위함
 		2. 애플리케이션 스레드가 동작 중이라면 객체 그래프가 변경될 수 있으므로 정확한 마킹이 불가능할 수 있으므로
 		3. Eden Region과 Root 객체만 마킹하므로 빠르게 완료됨
 		4. Young GC와 병행되어 추가적인 성능저하 최소화
+	3. Young GC가 트리거 될 때 수행
+		1. Eden Region이 가득 찬 경우
 2. Root Region Scan
 	1. Initial Mark에서 탐색된 Survivor Region의 객체들이 참조하는 Old Region 객체를 추적, 마킹
 		1. Old Region 중에서 살아있는 객체 식별
@@ -54,6 +61,8 @@
 	2. 애플리케이션과 동시에 수행되어 살아 있는 객체의 정보 수집
 	3. 객체 참조 그래프를 분석하여 객체 연결성 파악
 	4. GC 대상 객체가 발견되지 않은 Region은 이후 단계 처리에서 제외
+	5. Old Region의 사용률이 일정 임계치 이상에 도달했을 때 실행
+		1. 일반적으로 힙 메모리의 45% 이상 사용된 경우
 4. Remark
 	1. 애플리케이션 동작 중 객체 참조 관계가 변경된 부분을 확인하고, 추가적으로 살아 있는 객체를 마킹
 	2. STW
@@ -68,6 +77,10 @@
 		1. 새로운 GC 대상 Regoin을 설정하는 작업을 수행하기 위해
 6. Evacuation
 	1. GC 대상 Region이었으나 Cleanup 단계에서 완전히 비워지지 않은 Region의 살아남은 객체들을 새로운(Available/Unused) Region에 복사, Compaction 수행
+
+
+> SATB(Snapshot-At-The-Beginning)
+
 
 ### 2.2.3 Collection Set 선택
 
@@ -94,4 +107,5 @@
 2. 레퍼런스 타입의 정적 변수는 Old Generation으로 가는걸까?
 3. ~~힙 메모리를 참조하는 녀석은 레퍼런스 타입의 정적 변수와 스택 영역인데 GC는 대체 이것이 참조되지 않음을 어떻게 알고 이동시키는 것일까?~~
 	1. 도달능력(Reachability)을 기준으로 판단하는데, Reachable 상태임은 역으로 어떻게 아는 것일까?
-4. 기존의 GC는 Young Generation을 훨씬 적게 잡는데, G1GC에서는 Young Generation인 Eden과 Survivor이 많아질 수 있다. 이슈가 없을까?
+
+1. 기존의 GC는 Young Generation을 훨씬 적게 잡는데, G1GC에서는 Young Generation인 Eden과 Survivor이 많아질 수 있다. 이슈가 없을까?
