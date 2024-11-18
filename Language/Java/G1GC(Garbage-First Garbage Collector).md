@@ -108,9 +108,13 @@
 
 1. Full GC와 STW의 차이
 2. 레퍼런스 타입의 정적 변수는 Old Generation으로 가는걸까?
-3. ~~힙 메모리를 참조하는 녀석은 레퍼런스 타입의 정적 변수와 스택 영역인데 GC는 대체 이것이 참조되지 않음을 어떻게 알고 이동시키는 것일까?~~
+4. ~~힙 메모리를 참조하는 녀석은 레퍼런스 타입의 정적 변수와 스택 영역인데 GC는 대체 이것이 참조되지 않음을 어떻게 알고 이동시키는 것일까?~~
 	1. 도달능력(Reachability)을 기준으로 판단하는데, Reachable 상태임은 역으로 어떻게 아는 것일까?
 
-1. 기존의 GC는 Young Generation을 훨씬 적게 잡는데, G1GC에서는 Young Generation인 Eden과 Survivor이 많아질 수 있다. 이슈가 없을까?
+5. 기존의 GC는 Young Generation을 훨씬 적게 잡는데, G1GC에서는 Young Generation인 Eden과 Survivor이 많아질 수 있다. 이슈가 없을까?
 	1. Old Generation이 더 컸던 적이 없음
-2. 
+
+---
+차주는 스레드
+- Java의 쓰레드객체와 운영체제의 쓰레드는 어떤 관계가 있는가
+
