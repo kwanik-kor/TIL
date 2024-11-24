@@ -33,8 +33,79 @@
 ---
 # 2. Java의 스레드
 
+**쓰레드의 상속구조**
+```Java
+// thread.hpp:96
+// Class hierarchy
+// - Thread
+//   - JavaThread
+//     - various subclasses eg CompilerThread, ServiceThread
+//   - NonJavaThread
+//     - NamedThread
+//       - VMThread
+//       - ConcurrentGCThread
+//       - WorkerThread
+//     - WatcherThread
+//     - JfrThreadSampler
+//     - LogAsyncWriter
+//
+// All Thread subclasses must be either JavaThread or NonJavaThread.
+// This means !t->is_Java_thread() iff t is a NonJavaThread, or t is
+// a partially constructed/destroyed Thread.
+```
+
+**스레드 실행 흐름**
+```Java
+// thread.hpp:113
+// Thread execution sequence and actions:
+// All threads:
+//  - thread_native_entry  // per-OS native entry point
+//    - stack initialization
+//    - other OS-level initialization (signal masks etc)
+//    - handshake with creating thread (if not started suspended)
+//    - this->call_run()  // common shared entry point
+//      - shared common initialization
+//      - this->pre_run()  // virtual per-thread-type initialization
+//      - this->run()      // virtual per-thread-type "main" logic
+//      - shared common tear-down
+//      - this->post_run()  // virtual per-thread-type tear-down
+//      - // 'this' no longer referenceable
+//    - OS-level tear-down (minimal)
+//    - final logging
+//
+// For JavaThread:
+//   - this->run()  // virtual but not normally overridden
+//     - this->thread_main_inner()  // extra call level to ensure correct stack calculations
+//       - this->entry_point()  // set differently for each kind of JavaThread
+```
+
+**스레드 종류 및 우선 순위**
+```Java
+// os.hpp:70
+enum ThreadPriority {        // JLS 20.20.1-3
+  NoPriority       = -1,     // Initial non-priority value
+  MinPriority      =  1,     // Minimum priority
+  NormPriority     =  5,     // Normal (non-daemon) priority
+  NearMaxPriority  =  9,     // High priority, used for VMThread
+  MaxPriority      = 10,     // Highest priority, used for WatcherThread
+                             // ensures that VMThread doesn't starve profiler
+  CriticalPriority = 11      // Critical thread priority
+};
+
+// os.hpp:455
+enum ThreadType {
+    vm_thread,
+    gc_thread,         // GC thread
+    java_thread,       // Java, CodeCacheSweeper, JVMTIAgent and Service threads.
+    compiler_thread,
+    watcher_thread,
+    asynclog_thread,   // dedicated to flushing logs
+    os_thread
+  };
+```
+
 ---
 ### References
 - [Java Thread에 대해 깊게 이해해보자](https://letsmakemyselfprogrammer.tistory.com/98)
 - [Oracle MultiThreading reference](https://docs.oracle.com/cd/E19620-01/805-4031/6j3qv1oed/index.html)\
-- 
+- [How Java thread maps to os thread](https://medium.com/@unmeshvjoshi/how-java-thread-maps-to-os-thread-e280a9fb2e06)
