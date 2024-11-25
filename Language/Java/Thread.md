@@ -32,6 +32,11 @@
 
 ---
 # 2. Java의 스레드
+> Java의 스레드는 Hybrid Model로 Java Application 레벨의 스레드는 ULT지만 JVM은 KLT를 사용한다. 초기에는 Green Thread의 Many-To-One 모델이었으나 현재는 OS 정책에 따라 처리되고 있음.
+
+![[Pasted image 20241125202833.png]]
+
+
 
 **쓰레드의 상속구조**
 ```Java
