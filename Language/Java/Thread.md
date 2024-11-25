@@ -9,7 +9,12 @@
 - 레지스터 값
 - 스택
 
-각각의 스레드는 프로그램 카운터 값과 스택을 가지고 있기 때문에 스레드 마다 다음에 실행할 주소를 가질 수 있고, 연산 과정의 임시값을 저장할 수 있다. 멀티프로세서와의 차이점으로는 **자원의 공유 여부**가 있는데, 멀티스레드는 프로세스의 자원을 공유받으므로 동일한 주소 공간의 코드, 데이터, 힙 영역을 공유하고 있음
+ 각각의 스레드는 프로그램 카운터 값과 스택을 가지고 있기 때문에 스레드 마다 다음에 실행할 주소를 가질 수 있고, 연산 과정의 임시값을 저장할 수 있다. 멀티 프로세서와의 차이점으로는 **자원의 공유 여부**가 있는데, 멀티스레드는 프로세스의 자원을 공유받으므로 동일한 주소 공간의 코드, 데이터, 힙 영역을 공유하고 있음.
+
+컨텍스트 스위칭은 안하는 것에 비해 상대적으로 비싸다.
+
+- PCB, TCB
+- Process 컨텍스트 스위칭 -> MMU
 
 ## 1.1 User-level thread, Kernel-level thread
 | **특징**          | **User-Level Thread (ULT)**           | **Kernel-Level Thread (KLT)**         |
@@ -25,7 +30,7 @@
 | **예제**          | Java Green Threads, Pthreads (사용자 모드) | Linux Kernel Threads, Windows Threads |
 
 ### 1.2 Hybrid Model
-> ULT와 KLT의 장쩜을 결합한 하이브리드 모델
+> ULT와 KLT의 장점을 결합한 하이브리드 모델
 
 - Solaris M:N 스레딩 모델
 	- 여러 사용자 스레드를 적은 수의 커널 스레드에 매핑하여 효율성을 높임
@@ -55,7 +60,8 @@ Thread thread = new Thread().start()
 1. JavaThread
    Java 애플리케이션 코드에서 생성된 스레드, Java Thread 클래스나 Runnable 인터페이스를 사용하여 생성된 스레드는 JVM 내부적으로 JavaThread로 관리됨
    - Java 애플리케이션 코드와 직접 연관된 스레드
-   - JVM이 JavaThread를 관리하면서, Java 프로그램의 라이프사이클과 연동
+   - ~~JVM이 JavaThread를 관리~~하면서, Java 프로그램의 라이프사이클과 연동
+	   - 생성, 삭제 정도
    - Java 런타임 환경과 밀접하게 연결
 	   - Java의 스레드 상태(NEW, RUNNABLE, BLOCKED, WAITING)와 밀접하게 연결
 	   - JVM 스케줄러와 협력하여 작동
@@ -70,6 +76,11 @@ Thread thread = new Thread().start()
     - 제어할 수 없음
 	    - 네이티브 메서드 스택만 사용
 	    - JVM 내부 데이터를 처리하므로, Java 객체 참조를 가질 필요가 없어 가비지 컬렉션 대상이 아님
+
+JVM
+- process
+- JVM이 스레드의 상태 변경을 할 수 없음
+- JVM은 스레드에 대해 아무것도 할 수 없음
 
 
 **쓰레드의 상속구조**
@@ -147,6 +158,11 @@ enum ThreadType {
 ### 질문
 
 1. 
+
+---
+### 핵심
+- 스레드의 행동을 예측하지 마라
+- 
 
 ---
 ### References
