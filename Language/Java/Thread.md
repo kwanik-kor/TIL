@@ -34,10 +34,12 @@
 
 - Solaris M:N 스레딩 모델
 	- 여러 사용자 스레드를 적은 수의 커널 스레드에 매핑하여 효율성을 높임
+- 요즘의 하이브리드란?
+	- Virtual Thread
 
 ---
 # 2. Java의 스레드
-> Java의 스레드는 Hybrid Model로 Java Application 레벨의 스레드는 ULT지만 JVM은 KLT를 사용한다. 초기에는 Green Thread의 Many-To-One 모델이었으나 현재는 OS 정책에 따라 처리되고 있음.
+> Java의 스레드는 Hybrid Model로 Java Application 레벨의 스레드는 ULT지만 JVM은 KLT를 사용한다. 초기에는 Green Thread의 Many-To-One 모델이었으나 현재는 OS 정책에 따라 처리되고 있음. 
 
 ![[Pasted image 20241125202833.png]]
 
@@ -157,12 +159,19 @@ enum ThreadType {
 ---
 ### 질문
 
-1. 
+1. 어떤 형태로 학습하는가?
+	1. 키워드들을 뽑아낸 다음, 키워드 기반의 검색을 함
+	2. 최신 기술인 경우 만든 사람이 쓴 글이나 발표를 찾아봄
 
 ---
 ### 핵심
 - 스레드의 행동을 예측하지 마라
-- 
+- 차주
+	- 하고 싶은 프로젝트에 대한 것들
+	- 프로젝트 주제 준비, 유스케이스 설계
+	- HashMap -> put, remove, get, resize
+		- HashMap 코드 구현 자체를 이해해보자
+		- HashMap은 실제 면접에서 많이 물어봄
 
 ---
 ### References
