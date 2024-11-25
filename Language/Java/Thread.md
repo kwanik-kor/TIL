@@ -36,6 +36,23 @@
 
 ![[Pasted image 20241125202833.png]]
 
+## 2.1 Java의 스레드가 네이티브 스레드에 매핑되는 과정
+```Java
+// 1) Thread 생성, start 호출
+Thread thread = new Thread().start()
+
+// 2) 내부적으로 네이티브 메서드인 start0() 호출
+// 해당 메서드를 통해 운영체제에 스레드를 생성하라고 요청
+// 운영체제는 해당 요청을 처리하고 Java 스레드를 커널 스레드와 연결
+// JVM은 스레드의 실행 가능한 코드를 네이티브 호출로 전달하여 실행을 준비
+	// POSIX 스레드와 같은 운영체제 API 호출
+	// 생성한 객체는 JavaThreadWrapper로 불러옴
+	// JavaThreadWrapper를 통해 JVM에 대한 접근 권한과, 자바 스레드에 대한 참조가 가능해짐
+// Runnable 상태로 변경
+
+// 3) 
+```
+
 
 
 **쓰레드의 상속구조**
@@ -119,3 +136,4 @@ enum ThreadType {
 - [Java Thread에 대해 깊게 이해해보자](https://letsmakemyselfprogrammer.tistory.com/98)
 - [Oracle MultiThreading reference](https://docs.oracle.com/cd/E19620-01/805-4031/6j3qv1oed/index.html)\
 - [How Java thread maps to os thread](https://medium.com/@unmeshvjoshi/how-java-thread-maps-to-os-thread-e280a9fb2e06)
+- https://medium.com/@may1998/java-thread%EC%99%80-os-thread-1ee766ff3393
