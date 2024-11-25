@@ -49,10 +49,28 @@ Thread thread = new Thread().start()
 	// 생성한 객체는 JavaThreadWrapper로 불러옴
 	// JavaThreadWrapper를 통해 JVM에 대한 접근 권한과, 자바 스레드에 대한 참조가 가능해짐
 // Runnable 상태로 변경
-
-// 3) 
 ```
 
+### 2.1.1 JavaThread vs NonJavaThread
+1. JavaThread
+   Java 애플리케이션 코드에서 생성된 스레드, Java Thread 클래스나 Runnable 인터페이스를 사용하여 생성된 스레드는 JVM 내부적으로 JavaThread로 관리됨
+   - Java 애플리케이션 코드와 직접 연관된 스레드
+   - JVM이 JavaThread를 관리하면서, Java 프로그램의 라이프사이클과 연동
+   - Java 런타임 환경과 밀접하게 연결
+	   - Java의 스레드 상태(NEW, RUNNABLE, BLOCKED, WAITING)와 밀접하게 연결
+	   - JVM 스케줄러와 협력하여 작동
+	   - 스택 영역과 네이티브 메서드 스택을 함께 사용
+	   - JVM 인터프리터, JIT 컴파일러 혹은 네이티브 코드를 거쳐 호출
+	   - Java 객체와 연관된 모든 참조는 JavaThread에 의해 관리되므로, GC 동작 시, JavaThread의 로컬 변수 및 스택 참조가 반드시 스캔되어야 함
+
+2. NonJavaThread
+   JVM 내부에서만 사용되며, Java 애플리케이션 코드와 직접적으로 연관되지 않은 스레드. JVM 내부 작업을 처리하기 위해 생성된 스레드로 간주할 수 있음
+    - Java 애플리케이션에 의해 생성되지 않고, JVM 자체에서 관리
+    - JVM이 내부적으로 사용하는 작업(GC, JIT 컴파일러, 코드 인터프리터)에 사용
+    - 제어할 수 없음
+	    - 네이티브 메서드 스택만 사용
+	    - JVM 내부 데이터를 처리하므로, Java 객체 참조를 가질 필요가 없어 가비지 컬렉션 대상이 아님
+	    - 
 
 
 **쓰레드의 상속구조**
