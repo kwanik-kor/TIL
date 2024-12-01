@@ -39,6 +39,7 @@ final float loadFactor;
 
 **알아봐야 할 것들**
 - 왜 내부 필드가 serialize 과정에서 제외되는 transient로 처리되어 있을까?
+	- 직력화를 할 때, 전체 table 배열 자체를 직렬화하는 것 보다 키-값 쌍을 차례로 기록하는 것이 더 효율적이기 때문
 - 
 
 ---
@@ -122,9 +123,12 @@ if ((p = tab[i = (n - 1) & hash]) == null)
 ### 2.1.5 해시맵 상태 업데이트
 
 
+---
 ## 2.2 언제 호출되는가
 
-## 2.3 
+
+---
+## 2.3 put은 O(1) 정말?
 
 
 ---
@@ -133,3 +137,8 @@ if ((p = tab[i = (n - 1) & hash]) == null)
 
 # 4. get
 
+
+
+---
+### References
+1. https://d2.naver.com/helloworld/831311
