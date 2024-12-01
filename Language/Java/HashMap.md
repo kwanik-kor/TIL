@@ -153,16 +153,23 @@ if (oldTab != null) {
         Node<K,V> e;  
         if ((e = oldTab[j]) != null) {  
             oldTab[j] = null;  
+            // Separate Chaining
+            // 다음 노드가 설정되어 있지 않다면 바로 새 위치를 계산하여 새 테이블에 복사
             if (e.next == null)  
+	            // 용량이 2의 제곱수 이므로 1을 빼서 1의 자리 수로 만든 다음 해시 비트와 연산
+	            // 즉, 해시 비트 위치에 값을 넣음
                 newTab[e.hash & (newCap - 1)] = e;  
+			// 트리 노드를 분리하여 새 테이블에 적절히 재배치
             else if (e instanceof TreeNode)  
                 ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);  
             else { // preserve order  
+            // 연결 리스트로 구성된 버킷의 데이터를 새 테이블로 옮김
                 Node<K,V> loHead = null, loTail = null;  
                 Node<K,V> hiHead = null, hiTail = null;  
                 Node<K,V> next;  
                 do {  
                     next = e.next;  
+                    // 기존 임계치의 최상위 비트를 기준으로 그룹을 나눔
                     if ((e.hash & oldCap) == 0) {  
                         if (loTail == null)  
                             loHead = e;  
@@ -178,10 +185,13 @@ if (oldTab != null) {
                         hiTail = e;  
                     }  
                 } while ((e = next) != null);  
+                
+	            // Low Group은 기존 위치에 두고
                 if (loTail != null) {  
                     loTail.next = null;  
                     newTab[j] = loHead;  
                 }  
+                // High Group은 기존 해시값에 oldCap을 더한 위치로 이동
                 if (hiTail != null) {  
                     hiTail.next = null;  
                     newTab[j + oldCap] = hiHead;  
@@ -194,6 +204,7 @@ return newTab;
 // 
 ```
 
+- 싱글 노드에 대해서는 해당 노드의 해시값으로 바로 위치 시켰는데, 그룹으로 분할할 경우, High Group은 Old cap이 더해진 값으로 이동시킴? 그럼 어떻게 찾죠? 해시값으로?
 
 
 
