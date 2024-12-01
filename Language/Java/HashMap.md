@@ -281,10 +281,66 @@ return null;
 
 ---
 # 3. remove
+## 3.1 remove의 기본 동작 순서
+```Java
+/**
+ * @param hash - hash for key
+ * @param key - the key
+ * @param value - the value to match if matchValue, else ignored
+ * @param matchValue - if true only remove if value is equal
+ * @param movable - if false do not move other nodes while removing
+ */
+final Node<K,V> removeNode(int hash, Object key, Object value,  
+                           boolean matchValue, boolean movable) {  
+    Node<K,V>[] tab; 
+    Node<K,V> p; 
+    int n, index;  
+    
+    // table이 존재하고, 테이블의 데이터가 존재하고, 해시값에 해당하는 노드가 있을 경우만 진행
+    if ((tab = table) != null && (n = tab.length) > 0 &&  
+        (p = tab[index = (n - 1) & hash]) != null) {  
+        
+        Node<K,V> node = null, e; K k; V v;  
+        if (p.hash == hash &&  
+            ((k = p.key) == key || (key != null && key.equals(k))))  
+            node = p;  
+        else if ((e = p.next) != null) {  
+            if (p instanceof TreeNode)  
+                node = ((TreeNode<K,V>)p).getTreeNode(hash, key);  
+            else {  
+                do {  
+                    if (e.hash == hash &&  
+                        ((k = e.key) == key ||  
+                         (key != null && key.equals(k)))) {  
+                        node = e;  
+                        break;  
+                    }  
+                    p = e;  
+                } while ((e = e.next) != null);  
+            }  
+        }
+          
+        if (node != null && (!matchValue || (v = node.value) == value ||  
+                             (value != null && value.equals(v)))) {  
+            if (node instanceof TreeNode)  
+                ((TreeNode<K,V>)node).removeTreeNode(this, tab, movable);  
+            else if (node == p)  
+                tab[index] = node.next;  
+            else  
+                p.next = node.next;  
+            ++modCount;  
+            --size;  
+            afterNodeRemoval(node);  
+            return node;  
+        }  
+    }  
+    return null;  
+}
+```
 
 
 # 4. get
-
+## 4.1 get의 기본 동작 순서
 
 
 ---
