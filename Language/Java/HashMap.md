@@ -76,6 +76,8 @@ public V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
 ## 2.1 put의 기본적인 동작 순서
 
 ### 2.1.1 초기화
+> 내부 필드로 선언된 table이 Null이거나 tab의 길이가 0인 경우 리사이징 후 초기화 처리
+
 ```Java
 Node<K,V>[] tab; 
 Node<K,V> p; 
@@ -85,6 +87,16 @@ if ((tab = table) == null || (n = tab.length) == 0) {
 	n = (tab = resize()).length;
 }
 ```
+
+1. table이 null이거나 tab의 길이가 0인 경우는 언제일까?
+
+#### 2.1.1.1 Node
+> `Map.Entry<K, V>` 의 구현체
+
+
+#### 2.1.1.2 resize
+
+
 
 
 ## 2.2 언제 호출되는가
