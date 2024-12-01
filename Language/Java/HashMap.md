@@ -368,15 +368,18 @@ final Node<K,V> getNode(int hash, Object key) {
 	// 테이블과 테이블의 데이터가 존재하고, 해시 기반의 해드 노드가 존재할 경우 탐색
     if ((tab = table) != null && (n = tab.length) > 0 &&  
         (first = tab[(n - 1) & hash]) != null) {  
-    
+
+		// 해시값과 키가 동일하다면 반환함
         if (first.hash == hash && // always check first node  
             ((k = first.key) == key || (key != null && key.equals(k))))  
             return first;  
-            
+
+		// 다음 노드가 존재한다면
         if ((e = first.next) != null) {  
             if (first instanceof TreeNode)  
                 return ((TreeNode<K,V>)first).getTreeNode(hash, key);  
             do {  
+		        // 찾을 때까지 수행
                 if (e.hash == hash &&  
                     ((k = e.key) == key || (key != null && key.equals(k))))  
                     return e;  
@@ -386,6 +389,11 @@ final Node<K,V> getNode(int hash, Object key) {
     return null;  
 }
 ```
+
+# 5. hash
+> 아니 그래서 LinkedList로 관리되는 이 hash의 첫 번째 노드는 무엇을 기준으로 세팅하는거지?
+
+## 5.1 그 전에 잠시 해싱이 근본적으로 뭔지 정의할 수 있나요?
 
 ---
 ### References
