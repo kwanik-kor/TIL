@@ -40,7 +40,7 @@ final float loadFactor;
 **알아봐야 할 것들**
 - 왜 내부 필드가 serialize 과정에서 제외되는 transient로 처리되어 있을까?
 	- 직력화를 할 때, 전체 table 배열 자체를 직렬화하는 것 보다 키-값 쌍을 차례로 기록하는 것이 더 효율적이기 때문
-- 
+	- 뭔솔?
 
 ---
 # 2. put
@@ -206,25 +206,67 @@ return newTab;
 
 - 싱글 노드에 대해서는 해당 노드의 해시값으로 바로 위치 시켰는데, 그룹으로 분할할 경우, High Group은 Old cap이 더해진 값으로 이동시킴? 그럼 어떻게 찾죠? 해시값으로?
 
-
-
-
 ### 2.1.2  해시 값 기반의 인덱스 계산 및 첫 번째 노드 확인
-> 
 
 ```Java
+// 노드의 해시값에 데이터가 없다면, 테이블에 새로운 노드를 생성하여 배치함
 if ((p = tab[i = (n - 1) & hash]) == null)  
     tab[i] = newNode(hash, key, value, null);
+
+// 해시위치에 기존 노드가 있는 경우
+else {  
+    Node<K,V> e; 
+    K k;  
+    
+    // 해시값이 동일하고, 키가 동일하다면
+    if (p.hash == hash &&  
+        ((k = p.key) == key || (key != null && key.equals(k))))  
+        // 기존 노드를 e로 설정
+        e = p;  
+	// 트리구조라면 트리 노드에 삽입을 위임
+    else if (p instanceof TreeNode)  
+        e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);  
+	// 해시값이 다르거나, 키가 같지 않은 경우
+    else {  
+        for (int binCount = 0; ; ++binCount) {  
+			// 루트 노드의 다음 노드가 없을 경우 해당 노드에 새로운 노드로 생성/배치
+            if ((e = p.next) == null) {  
+                p.next = newNode(hash, key, value, null);  
+                // 트리 구성 임계치(8)를 넘어설 경우 트리 재구성
+                if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st  
+                    treeifyBin(tab, hash);  
+                break;  
+            }  
+            // p를 다음 노드 값으로 설정
+            if (e.hash == hash &&  
+                ((k = e.key) == key || (key != null && key.equals(k))))  
+                break;  
+            p = e;  
+        }  
+    }  
+    // 기존 노드가 발견된 경우에는 값을 대체
+    // 추가 등록된 노드에 따른 사후처리 진행
+    if (e != null) { // existing mapping for key  
+        V oldValue = e.value;  
+        if (!onlyIfAbsent || oldValue == null)  
+            e.value = value;  
+		// LinkedHashMap에서만 처리
+        afterNodeAccess(e);  
+        return oldValue;  
+    }  
+}
 ```
 
-### 2.1.3 기존 노드가 있는 경우에 대한 처리
 
-
-### 2.1.4 기존 노드 처리 및 값 업데이트
-
-
-### 2.1.5 해시맵 상태 업데이트
-
+### 2.1.3 해시맵 상태 업데이트
+```Java
+++modCount;  
+if (++size > threshold)  
+    resize();  
+// LinkedHashMap 에서만 처리
+afterNodeInsertion(evict);  
+return null;
+```
 
 ---
 ## 2.2 언제 호출되는가
@@ -232,6 +274,9 @@ if ((p = tab[i = (n - 1) & hash]) == null)
 
 ---
 ## 2.3 put은 O(1) 정말?
+- 트리의 다음 노드를 순회하는 과정이 포함되는데 이는 상수 시간이라 할 수 있는가?
+	- 트리 노드의 임계치가 8로 설정되어 있어 최대 연산 횟수가 고정값이므로 상수 시간이라고 볼 수 있음
+	- 즉, 해시값 기반으로 배열에 접근하는 시간 상수시간만 발생함
 
 
 ---
