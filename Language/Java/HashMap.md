@@ -300,15 +300,23 @@ final Node<K,V> removeNode(int hash, Object key, Object value,
     if ((tab = table) != null && (n = tab.length) > 0 &&  
         (p = tab[index = (n - 1) & hash]) != null) {  
         
-        Node<K,V> node = null, e; K k; V v;  
+        Node<K,V> node = null, e; 
+        K k; 
+        V v;  
+        
+        // 해시값과 키가 동일하다면 node는 해시로 탐색한 노드
         if (p.hash == hash &&  
             ((k = p.key) == key || (key != null && key.equals(k))))  
             node = p;  
+		// 노드의 다음 값이 존재한다면
         else if ((e = p.next) != null) {  
+	        // 트리인 경우 트리 로직
             if (p instanceof TreeNode)  
                 node = ((TreeNode<K,V>)p).getTreeNode(hash, key);  
+			// 노드의 다음 노드가 존재하는 동안
             else {  
-                do {  
+                do {
+	                // 해시값과 키가 동일한 노드를 찾는 다면 탐색 종료
                     if (e.hash == hash &&  
                         ((k = e.key) == key ||  
                          (key != null && key.equals(k)))) {  
@@ -319,17 +327,22 @@ final Node<K,V> removeNode(int hash, Object key, Object value,
                 } while ((e = e.next) != null);  
             }  
         }
-          
+
+		// 1. 노드를 찾았고 2. 값 일치 여부를 따지지 않거나 3. 따진다면 값이 같을 경우
         if (node != null && (!matchValue || (v = node.value) == value ||  
                              (value != null && value.equals(v)))) {  
+			// 트리면 트리 로직
             if (node instanceof TreeNode)  
                 ((TreeNode<K,V>)node).removeTreeNode(this, tab, movable);  
+			// 탐색한 노드가 해시값으로 탐색한 헤드 노드였다면, 한 칸 씩 당김
             else if (node == p)  
                 tab[index] = node.next;  
+			// 그렇지 않다면 탐색된 해시 노드에 이어붙임
             else  
                 p.next = node.next;  
             ++modCount;  
             --size;  
+            // LinkedHashMap에서만 처리
             afterNodeRemoval(node);  
             return node;  
         }  
@@ -341,7 +354,38 @@ final Node<K,V> removeNode(int hash, Object key, Object value,
 
 # 4. get
 ## 4.1 get의 기본 동작 순서
+```Java
+/**
+ * @param hash - hash for key
+ * @param key - the key
+ */
+final Node<K,V> getNode(int hash, Object key) {  
+    Node<K,V>[] tab; 
+    Node<K,V> first, e; 
+    int n; 
+    K k;  
 
+	// 테이블과 테이블의 데이터가 존재하고, 해시 기반의 해드 노드가 존재할 경우 탐색
+    if ((tab = table) != null && (n = tab.length) > 0 &&  
+        (first = tab[(n - 1) & hash]) != null) {  
+    
+        if (first.hash == hash && // always check first node  
+            ((k = first.key) == key || (key != null && key.equals(k))))  
+            return first;  
+            
+        if ((e = first.next) != null) {  
+            if (first instanceof TreeNode)  
+                return ((TreeNode<K,V>)first).getTreeNode(hash, key);  
+            do {  
+                if (e.hash == hash &&  
+                    ((k = e.key) == key || (key != null && key.equals(k))))  
+                    return e;  
+            } while ((e = e.next) != null);  
+        }  
+    }  
+    return null;  
+}
+```
 
 ---
 ### References
