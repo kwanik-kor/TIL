@@ -73,6 +73,7 @@ public V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
 }
 ```
 
+---
 ## 2.1 put의 기본적인 동작 순서
 
 ### 2.1.1 초기화
@@ -88,18 +89,42 @@ if ((tab = table) == null || (n = tab.length) == 0) {
 }
 ```
 
-1. table이 null이거나 tab의 길이가 0인 경우는 언제일까?
+<details>
+	<summary>table이 null이거나 tab의 길이가 0인 경우는 언제일까?</summary>
+	<p>
+		1. 초기화 상태
+		2. 
+	</p>
+</details>
 
 #### 2.1.1.1 Node
 > `Map.Entry<K, V>` 의 구현체
 
-
 #### 2.1.1.2 resize
+> HashMap이 확장될 때 실행되는 핵심 함수로, HashMap의 크기 변경은 저장된 데이터의 충돌 최소화와 성능 유지를 위해 설계된 알고리즘으로 이루어짐
 
 
+
+### 2.1.2  해시 값 기반의 인덱스 계산 및 첫 번째 노드 확인
+> 
+
+```Java
+if ((p = tab[i = (n - 1) & hash]) == null)  
+    tab[i] = newNode(hash, key, value, null);
+```
+
+### 2.1.3 기존 노드가 있는 경우에 대한 처리
+
+
+### 2.1.4 기존 노드 처리 및 값 업데이트
+
+
+### 2.1.5 해시맵 상태 업데이트
 
 
 ## 2.2 언제 호출되는가
+
+## 2.3 
 
 
 ---
