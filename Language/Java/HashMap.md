@@ -100,9 +100,101 @@ if ((tab = table) == null || (n = tab.length) == 0) {
 
 #### 2.1.1.1 Node
 > `Map.Entry<K, V>` 의 구현체
+- Java 7의 Entry 클래스와 내용이 같지만 Linked List 대신 Tree를 사용할 수 있도록 하위 클래스인 TreeNode가 있다는 것이 Java 7 Hash Map과의 차이점
 
 #### 2.1.1.2 resize
 > HashMap이 확장될 때 실행되는 핵심 함수로, HashMap의 크기 변경은 저장된 데이터의 충돌 최소화와 성능 유지를 위해 설계된 알고리즘으로 이루어짐
+
+```Java
+// 기존 해시 테이블의 크기 및 정보를 가져옴
+Node<K,V>[] oldTab = table;  
+int oldCap = (oldTab == null) ? 0 : oldTab.length;  
+int oldThr = threshold;  
+int newCap, newThr = 0;
+
+// 기존 테이블 크기가 0보다 큰 경우
+if (oldCap > 0) {  
+	// 최대 용량 이상이라면 확장하지 않고 반환
+	// 최대 용량이 2^30 인 이유는 hash가 int로 구현되기 때문
+    if (oldCap >= MAXIMUM_CAPACITY) {  
+        threshold = Integer.MAX_VALUE;  
+        return oldTab;  
+    }  
+    // 기존 크기가 작다면 임계값을 두 배로 조정
+    else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&  
+             oldCap >= DEFAULT_INITIAL_CAPACITY)  
+        newThr = oldThr << 1; // double threshold  
+}  
+// 테이블은 0이지만 임계치가 지정된 경우 새 임계치로 매핑
+else if (oldThr > 0) // initial capacity was placed in threshold  
+    newCap = oldThr;  
+// 기본값으로 설정(16, 75%)
+else {               // zero initial threshold signifies using defaults  
+    newCap = DEFAULT_INITIAL_CAPACITY;  
+    newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);  
+}
+
+// 새 임계값 계산
+if (newThr == 0) {  
+    float ft = (float)newCap * loadFactor;  
+    newThr = (newCap < MAXIMUM_CAPACITY && ft < (float)MAXIMUM_CAPACITY ?  
+              (int)ft : Integer.MAX_VALUE);  
+}
+
+// 새 해시 테이블 생성
+threshold = newThr;  
+@SuppressWarnings({"rawtypes","unchecked"})  
+Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];  
+table = newTab;
+
+// 기존(Old Table)이 있는 경우
+if (oldTab != null) {  
+    for (int j = 0; j < oldCap; ++j) {  
+        Node<K,V> e;  
+        if ((e = oldTab[j]) != null) {  
+            oldTab[j] = null;  
+            if (e.next == null)  
+                newTab[e.hash & (newCap - 1)] = e;  
+            else if (e instanceof TreeNode)  
+                ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);  
+            else { // preserve order  
+                Node<K,V> loHead = null, loTail = null;  
+                Node<K,V> hiHead = null, hiTail = null;  
+                Node<K,V> next;  
+                do {  
+                    next = e.next;  
+                    if ((e.hash & oldCap) == 0) {  
+                        if (loTail == null)  
+                            loHead = e;  
+                        else  
+                            loTail.next = e;  
+                        loTail = e;  
+                    }  
+                    else {  
+                        if (hiTail == null)  
+                            hiHead = e;  
+                        else  
+                            hiTail.next = e;  
+                        hiTail = e;  
+                    }  
+                } while ((e = next) != null);  
+                if (loTail != null) {  
+                    loTail.next = null;  
+                    newTab[j] = loHead;  
+                }  
+                if (hiTail != null) {  
+                    hiTail.next = null;  
+                    newTab[j + oldCap] = hiHead;  
+                }  
+            }  
+        }  
+    }  
+}  
+return newTab;
+// 
+```
+
+
 
 
 
