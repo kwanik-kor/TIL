@@ -261,6 +261,7 @@ else {
 
 ### 2.1.3 해시맵 상태 업데이트
 ```Java
+// KeySet에서 사용함
 ++modCount;  
 if (++size > threshold)  
     resize();  
