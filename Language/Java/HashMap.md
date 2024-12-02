@@ -21,7 +21,6 @@ transient int size;
 
 /**
  * The number of times this HashMap has been structurally modified Structural modifications are those that change the number of mappings in the HashMap or otherwise modify its internal structure (e.g., rehash). This field is used to make iterators on Collection-views of the HashMap fail-fast. (See ConcurrentModificationException).
-
  */
 transient int modCount;
 
@@ -94,7 +93,6 @@ if ((tab = table) == null || (n = tab.length) == 0) {
 	<summary>table이 null이거나 tab의 길이가 0인 경우는 언제일까?</summary>
 	<p>
 		1. 초기화 상태
-		2. 
 	</p>
 </details>
 
