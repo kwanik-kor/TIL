@@ -12,7 +12,7 @@
 
 ### JPA
 
-[1. JPA 기초](./JPA/JPA_Basic.md)
+[1. JPA 기초](JPA_Basic.md)
 
 ### Spring
 
