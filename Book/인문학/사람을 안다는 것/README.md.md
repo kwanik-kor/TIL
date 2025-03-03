@@ -48,5 +48,5 @@
 - 신뢰 수준이 높은 사회는 '자발적인 사회성'
 	- 프랜시스 후쿠야마(Francis Fukuyama, p150)
 	- 사람들이 함께하고 협력하기를 좋아함
-- 모든 사회에는 철학자 악셀 호네트(Axel Honneth)가 말하는 인정 질서(recognition order)가 존재
+- 모든 사회에는 철학자 악셀 호네트(Axel Honneth)가 말하는 **인정 질서(recognition order)**가 존재
 - 
