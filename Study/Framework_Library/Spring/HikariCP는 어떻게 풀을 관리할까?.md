@@ -63,9 +63,40 @@ public Connection getConnection(final long hardTimeout) throws SQLException
 
 > Hikari 풀 상태를 JMX MBean으로 노출할 수 있는데, 이를 통해 JConsole, VisualVM 같은 툴로 모니터링을 할 수 있음
 
-- JMX, MBeans가 무엇일까?
+- **JMX, MBeans가 무엇일까?**
 
-### 3.1.7 
+### 3.1.7 Connection Add/Close Executors
+
+> DB 커넥션을 등록하고 종료하는 작업을 담당하는 실행자들을 등록 및 초기화
+
+- addConnectionExecutor
+	- 새로운 DB 커넥션을 만드는 작업 담당
+	- `LinkedBlockingQueue`를 사용해서 대기 작업 큐잉
+	- `CustomDiscardPolicy`는 큐가 꽉 찼을 때 작업을 버리고 로그만 남기는 정책
+- closeConnectionExecutor
+	- 커텍션 종료 작업 담당
+	- 풀에서 유휴 시간이 지난 커넥션을 닫는 등의 작업을 비동기로 수행
+
+### 3.1.8 Leak Detection
+> 밀리초 단위 이상으로 커넥션을 반납하지 않으면 로그에 경고를 남기는 역할
+
+- 디버깅, 테스트 시에 유용하지만, 운영에서는 너무 짧게 잡을 경우 false-positive가 생길 수 있음
+
+### 3.1.9 HouseKeeper 등록
+
+> 풀을 정기적으로 점검하는 백그라운드 작업으로 default 30초
+
+- idle timeout 지난 커넥션 닫기
+- validation query로 연결 상태 점검
+- keepalive 옵션이 켜져 있으면 주기적으로 ping
+- **clock drift** 보정
+
+### 3.1.10 blockUntilFilled 옵션
+
+> `-Dcom.zaxxer.hikari.blockUntilFilled=true` JVM 옵션으로 활성화 가능한 옵션이며, 기본적으로 Hikari는 lazy initialization을 하지만 이 옵션 시에는 애플리케이션 시작 전에 minimumIdle만큼 풀이 채워질 때까지 block 처리를 하게 됨
+
+- 일종의 웜업 기능이라고 볼 수 있을 것 같은데, 커넥션을 사용하는 API 콜을 이용한 웜업을 한다면 커넥션 풀이 채워져 있을테니 굳이 사용이 필요한 기능일까?
+- 이걸 통해 웜업을 하면 첫 요청에 대한 latency는 얼마나 차이날까?
 
 ----
 ### References
