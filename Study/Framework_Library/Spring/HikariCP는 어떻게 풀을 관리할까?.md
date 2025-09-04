@@ -1,4 +1,4 @@
-> 
+> 서버와 DB가 통신하기 위해서 필요한 네트워크 통신, 이 통신의 효율적인 운용을 위해 사용하는 커넥션 풀은 어떻게 만들어지고 관리되고 있을지 알아보자
 
 ## 1. 먼저 Connection Pool은 무엇일까?
 
@@ -102,3 +102,5 @@ public Connection getConnection(final long hardTimeout) throws SQLException
 
 ----
 ### References
+- [HikariCP](https://github.com/brettwooldridge/HikariCP?tab=readme-ov-file)
+- 
