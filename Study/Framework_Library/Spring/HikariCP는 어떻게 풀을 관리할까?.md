@@ -1,4 +1,6 @@
-## 1. Connection Pool은 무엇일까?
+> 
+
+## 1. 먼저 Connection Pool은 무엇일까?
 
 
 
