@@ -4,7 +4,7 @@
 
 AI Agent란 AI 모델을 활용해 사용자를 대신해서 어떤 행동 혹은 작업을 수행하는 애플리케이션을 의미한다. 
 
-![[Pasted image 20250910223006.png]]
+![AI Service Architecture](./images/ai_architecture.png)
 
 AI 모델은 온프레미스에서 실행될 수도 있고, 클라우드에서 실행될 수도 있으며, Back-end는 REST API를 통해 입력 데이터를 담아 AI 모델로 요청을 보내고, AI 모델로부터 응답을 받아 Front-end에 전달한다.
 
