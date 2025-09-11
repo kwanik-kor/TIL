@@ -66,10 +66,32 @@ public interface StreamingChatModel extends StreamingModel<Prompt, ChatResponse>
 ```
 
 ## 1.2 Prompt
+ModelRequest 인터페이스의 구현체로, 복수 개의 시스템 메시지, 사용자 메시지, AI 메시지를 저장하고 대화 옵션을 가지고 있음.
+```java
+public class Prompt implements ModelRequest<List<Message>> {
+	private final List<Message> messages;
+	
+	@Nullable
+	private ChatOptions chatOptions;
+}
+```
 
 ## 1.3 Message
+메시지는 아래의 메시지들로 구성되어 있음
+- `SystemMessage`
+	- LLM 요청 전 생성
+	- LLM 행동과 응답 스타일을 지시하는 메시지로, LLM이 입력을 해석하는 방법과 답변하는 방식 지시
+- `UserMessage`
+	- LLM 요청 전 생성
+	- 사용자의 질문, 명령을 담고 있는 메시지로, LLM 응답 형서으이 기초가 되는 메시지
+- `AssistantMessage`
+	- LLM의 응답 메시지로, 단순한 답변 전달을 넘어 대화 기억 유지에도 사용되어 일관되고 맥락에 맞는 대화에 도움을 줌
+- `ToolResponseMessage`
+	- Tool 호출 결과를 다시 LLM으로 반환할 때 사용하는 내부 메시지
 
 ## 1.4 ChatOptions
+LLM 종류와 상관없이 LLM과 대화할 때 사용할 수 있는 공통 옵션 정의
+
 
 ## 1.5 ChatResponse
 
