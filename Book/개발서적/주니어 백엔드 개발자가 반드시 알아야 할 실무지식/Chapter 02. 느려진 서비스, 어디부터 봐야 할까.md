@@ -94,16 +94,87 @@ HTTP 프로토콜인 경우
 - HTTP/2/3의 경우: 스트림 종료 플래그(`END_STREAM`)가 도착하면 마지막 바이트로 판단
 ### 3. Spring에서 최대 TPS가 초과되어 대기하는 요청들은 어디서 대기할까?
 
+- **Spring MVC (Tomcat/NIO 환경)**
+    
+    1. 클라이언트 요청 → Tomcat Connector가 먼저 받음.
+        
+    2. **Tomcat의 Acceptor Thread**가 소켓 연결을 받고, **요청 큐**(accept queue / backlog)에 저장.
+        
+    3. ThreadPoolExecutor(Worker Threads)에서 요청을 가져가 처리.
+        
+    4. 스레드가 부족하면 요청은 **Tomcat의 내부 큐**에서 대기.
+        
+    5. 큐가 가득 차면 → 클라이언트에 `503 Service Unavailable` 응답.
+        
+
+즉, **Spring 자체가 아니라 WAS(Tomcat, Undertow, Jetty)** 수준의 스레드 풀과 큐에서 대기
 
 ### 4. 언제 어떻게 수직/수평 확장을 적용했었나?
 
 
 ### 5. Spring Boot의 기본 커넥션 풀인 Hikari CP는 어떻게 구성되어 있을까?
 
+- Spring Boot 2.x+ 기본 커넥션 풀은 **HikariCP**
+    
+- 주요 기본값:
+    
+    - `maximumPoolSize = 10`
+        
+    - `minimumIdle = 10` (기본적으로 maximumPoolSize와 동일)
+        
+    - `connectionTimeout = 30s` (풀에서 커넥션 못 빌리면 예외)
+        
+    - `idleTimeout = 600s` (사용되지 않는 커넥션은 제거)
+        
+    - `maxLifetime = 1800s` (DB 커넥션 재생성 주기 → DB 측 idle timeout과 맞추는 게 중요)
 
 ### 6. 적절한 기본 커넥션 풀 크기를 설정하는 공식이 있을까? 공식이 있다면 어떤 기준으로 만들어진걸까?
 
+- **일반적으로 알려진 공식 (C3P0/Hikari 문서에서 차용됨)**
+    
+
+Pool Size≈(Number of CPU cores)×(1+DB Wait TimeDB Service Time)\text{Pool Size} \approx \text{(Number of CPU cores)} \times (1 + \frac{\text{DB Wait Time}}{\text{DB Service Time}})Pool Size≈(Number of CPU cores)×(1+DB Service TimeDB Wait Time​)
+
+- **DB Wait Time**: 애플리케이션이 DB 응답을 기다리는 평균 시간
+    
+- **DB Service Time**: 실제 쿼리가 DB에서 처리되는 시간
+    
+
+이 공식은 **리틀의 법칙(Little’s Law)**을 기반으로 만들어졌습니다.
+
+- 시스템 내 동시 처리 가능한 작업 수 = 처리율 × 평균 응답시간
+    
+- 풀 크기를 너무 크게 하면 DB에 과부하 → 성능 저하
+    
+- 너무 작으면 애플리케이션에서 대기 시간이 늘어남.
+    
+
+👉 실무에서는 보통 **CPU 코어 수 × 2~4 정도에서 시작 → 모니터링 → 조정** 방식으로 튜닝합니다.
 
 ### 7. DBMS는 부하가 걸리면 쿼리 실행 시간이 왜 느려질까?
 
+주요 원인:
 
+1. **동시 연결 과다**
+    
+    - DB Connection이 너무 많아지면 Context Switching, Lock 경합 증가.
+        
+2. **락/경합**
+    
+    - 같은 데이터에 대해 많은 트랜잭션이 동시에 접근하면 **Row Lock, Table Lock, Deadlock 회피** 때문에 대기.
+        
+3. **Buffer Pool/Cache Miss 증가**
+    
+    - 메모리 캐시가 부족해지면 → 디스크 I/O 발생 → 응답 느려짐.
+        
+4. **쿼리 플랜 선택 오류**
+    
+    - 통계 정보가 부정확하면 옵티마이저가 비효율적인 실행 계획 선택.
+        
+5. **리소스 부족**
+    
+    - CPU, 메모리, 디스크 I/O, 네트워크 대역폭 부족 → 전체 쿼리 속도 저하.
+        
+6. **TempDB / Disk Spill**
+    
+    - 대량 정렬/조인 시 메모리가 부족해 디스크 쓰기를 하면 급격히 느려짐.
