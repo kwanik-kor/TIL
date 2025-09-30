@@ -200,3 +200,5 @@ Pool Size≈(Number of CPU cores)×(1+DB Wait TimeDB Service Time)\text{
 15. 서비스가 느려졌을 때, **캐시를 추가하는 것이 좋은 해결책이 아닌 경우**는 언제일까요?
     
 16. 실무에서 성능 문제의 **근본 원인(RCA, Root Cause Analysis)**을 찾기 위해 어떤 프로세스를 따르나요?
+
+우리의 CDN 정말 의미있는 걸까요?
