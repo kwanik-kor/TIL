@@ -202,3 +202,11 @@ Pool Size≈(Number of CPU cores)×(1+DB Wait TimeDB Service Time)\text{
 16. 실무에서 성능 문제의 **근본 원인(RCA, Root Cause Analysis)**을 찾기 위해 어떤 프로세스를 따르나요?
 
 우리의 CDN 정말 의미있는 걸까요?
+
+
+---
+
+- 왜 gRPC를 모두 안쓰는걸까?
+- 웹소켓과 소켓의 차이
+	- 웹 소켓은 소켓의 종류 중 하나
+- 
