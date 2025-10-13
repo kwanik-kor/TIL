@@ -159,8 +159,56 @@ CDC는 이벤트 메시지에 가깝지만, 이벤트처럼 정확하게 의미�
 
 2. Pull 방식일 때, 복수의 소비자(Consumer)가 어떻게 메시지를 읽어갈 수 있을까?
 3. Push 방식은 브로커가 소비자에게 메시지를 전송하는데, 어떤 소비자가 있는지 어떻게 아는걸까?
+	Queue에 컨슈머가 연결될 때 등록(subscribe) 하므로, 누가 컨슈머인지 이미 알고 있음
+
 4. AMQP, STOMP 프토토콜이란?
+
+	**AMQP(Advanced Message Queuing Protocol)**
+	Producer > Exchange > Queue > Consumer
+		Consumer가 Broker에게 "구독 요청"을 보냄
+		Broker가 메시지를 Queue에 push
+		Broker는 연결된 Consumer에 라운드 로빈 방식으로 메시지 분배
+
 5. 요청/응답, 점대점 패턴이란?
+
+	요청/응답(Request/Response)
+		클라이언트가 요청을 보내고, 서버가 응답을 반환
+		RPC, gRPC, HTTP, AMQP RPC
+	점대점(Point-to-Point)
+		메시지를 한 소비자만 처리
+		Queue 모델
+	발행/구독(Pub/Sub)
+		여러 소비자가 같은 메시지를 각각 수신
+		Topic 모델(Kafka, RabbitMQ Exchange/Topic)
+
 6. 트랜잭션 아웃박스 패턴에서 메시지 중계 서비스가 2개 이상이라면, 어떻게 가져가게 처리해야할까?
+	- DB row lock + skip locked 패턴(Postgres/MySQL 8+)
+```SQL
+WITH rows AS (
+  SELECT id FROM outbox
+  WHERE status = 'pending'
+  ORDER BY created_at
+  LIMIT 100
+  FOR UPDATE SKIP LOCKED
+)
+UPDATE outbox
+SET status = 'processing', locked_by = :worker_id, locked_at = now()
+WHERE id IN (SELECT id FROM rows)
+RETURNING *;
+```
+
+- 분산 락(Redis Redlock, Zookeeper, Consul)을 사용하여 워커가 메시지 획득 전에 분산 락을 획득해서 단일 워커만 수행하게 하기
+
 7. MySQL을 통한 CDC 구현에서 위치 표기가 구체적으로 어떤 것을 말하는걸까?
-8. CDC 처리기도 이중화가 되어 있다면 어디까지 읽었는지 어떻게 알 수 있을까?
+
+
+8. CDC Connector가 이중화가 되어 있다면 어디까지 읽었는지 어떻게 알 수 있을까?
+> 아키텍처 차원에서 정확히 한 번만 처리(Exactly-once semantics)를 보장할 수 있도록 구조를 설계해야 함
+> DB -> CDC Connector (Debezium, Maxwell, etc.) -> 메시지 브로커(Kafka 등) -> CDC Processor
+
+Debezium의 CDC Connector로서 아래와 같이 동작함
+> MySQL (binlog)
+> Debezium Connector (예: MySQL Connector)
+> Kafka Topic (예: dbserver1.inventory.customers)
+
+
