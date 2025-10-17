@@ -6,3 +6,9 @@
 
 ## 3. 프로세스 수준에서의 동시 접근 제어
 
+
+---
+### 심화 질문
+
+1. Lock 구현체 중 하나인 ReentrantLock의 이름은 왜 ReentrantLock일까?
+2. 
