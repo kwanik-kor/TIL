@@ -60,7 +60,7 @@ Thread thread = new Thread().start()
 
 ### 2.1.1 JavaThread vs NonJavaThread
 1. JavaThread
-   Java 애플리케이션 코드에서 생성된 스레드, Java Thread 클래스나 Runnable 인터페이스를 사용하여 생성된 스레드는 JVM 내부적으로 JavaThread로 관리됨
+   Java 애플리케이션 코드에서 생성된 스레드, Java Thread 클래스나 Runnable 인터페이스를 사용하여 생성된 스레드는 JVM 내부적으로 Java Thread로 관리됨
    - Java 애플리케이션 코드와 직접 연관된 스레드
    - ~~JVM이 JavaThread를 관리~~하면서, Java 프로그램의 라이프사이클과 연동
 	   - 생성, 삭제 정도
